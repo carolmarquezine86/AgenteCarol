@@ -1,0 +1,25 @@
+name: Rotina Diária Carol
+
+on:
+  schedule:
+    # Horários UTC (Brasília = UTC - 3h)
+    - cron: '0 11 * * *'  # 08:00 BRT - Bom dia
+    - cron: '0 14 * * *'  # 11:00 BRT - Check-in 11h
+    - cron: '0 17 * * *'  # 14:00 BRT - Check-in 14h
+    - cron: '0 20 * * *'  # 17:00 BRT - Check-in 17h
+    - cron: '0 23 * * *'  # 20:00 BRT - Voltar para casa
+  workflow_dispatch:      # Permite testar manualmente a qualquer momento
+
+jobs:
+  enviar_mensagem:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Executar bot
+        run: python main.py
